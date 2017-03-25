@@ -20,8 +20,8 @@ char* initnstr(int n)
         return NULL;
     }
 
-    char* string = malloc(n * sizeof(char));
-    memset(string,'\0',n);
+    char* string = malloc((n + 1) * sizeof(char));
+    memset(string,'\0',n + 1);
 
     return string;
 }
@@ -29,8 +29,7 @@ char* initnstr(int n)
 char* extendstr(char* string,int n)
 {
     int strLen = strlen(string);
-    int newstrlen = (strLen + n + 1);
-    char* newString = initnstr(newstrlen);
+    char* newString = initnstr((strLen + n));
 
     strncpy(newString,string,strLen);
 

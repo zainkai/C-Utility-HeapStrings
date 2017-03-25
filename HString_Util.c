@@ -30,9 +30,8 @@ char* extendstr(char* string,int n)
 {
     int strLen = strlen(string);
     int newstrlen = (strLen + n + 1);
-    char* newString = malloc(newstrlen * sizeof(char));
+    char* newString = initnstr(newstrlen);
 
-    memset(newString,'\0',newstrlen);
     strncpy(newString,string,strLen);
 
     freestr(string);

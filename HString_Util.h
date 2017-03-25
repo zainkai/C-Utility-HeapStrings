@@ -11,6 +11,7 @@ char* hstrnew(const char* init);
 void hstrfree(char* string);
 char* hstrinit(size_t n);
 char* hstrextend(char* string,size_t n);
+char* hstrresize(char* string, size_t newlength);
 size_t hstrtruelen(char* string);
 char* hstrclear(char* string);
 char** hstrsplit(char* string, char* delims);

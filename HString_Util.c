@@ -1,10 +1,14 @@
 #include "HString_Util.h"
 
+// NAME:
+// DESC:
 char* hstrnew(const char* init)
 {
     return strdup(init);
 }
 
+// NAME:
+// DESC:
 void hstrfree(char* string)
 {
     if(string == NULL){
@@ -14,6 +18,8 @@ void hstrfree(char* string)
     free(string);
 }
 
+// NAME:
+// DESC:
 char* hstrinit(size_t n)
 {
     if(n == 0){
@@ -26,6 +32,8 @@ char* hstrinit(size_t n)
     return string;
 }
 
+// NAME:
+// DESC:
 char* hstrextend(char* string,size_t n)
 {
     size_t strLength = strlen(string);
@@ -39,15 +47,44 @@ char* hstrextend(char* string,size_t n)
     return string;
 }
 
+// NAME:
+// DESC:
+char* hstrresize(char* string, size_t newlength)
+{
+    int offset = newlength - hstrtruelen(string);
+
+    if(offset == 0){
+        return string;
+    }
+    else if(offset < 0){
+        char* newString = hstrinit(newlength);
+
+        strncpy(newString,string,newlength);
+        newString[newlength + 1] = '\0';
+
+        hstrfree(string);
+        string = newString;
+    }
+    else{
+        string = hstrextend(string,offset);
+    }
+
+    return string;
+}
+
+// NAME:
+// DESC:
 size_t hstrtruelen(char* string)
 {
     if(string == NULL){
-        return NULL;
+        return 0;
     }
 
     return (sizeof(string)/sizeof(char));
 }
 
+// NAME:
+// DESC:
 char* hstrclear(char* string)
 {
     memset(string,'\0',hstrtruelen(string));
@@ -55,6 +92,8 @@ char* hstrclear(char* string)
     return string;
 }
 
+// NAME:
+// DESC:
 char** hstrsplit(char* string, char* delims)
 {
     int n_tokens = 1;

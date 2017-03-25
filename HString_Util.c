@@ -28,10 +28,10 @@ char* hstrinit(size_t n)
 
 char* hstrextend(char* string,size_t n)
 {
-    int strLen = strlen(string);
-    char* newString = hstrinit((strLen + n));
+    size_t strLength = strlen(string);
+    char* newString = hstrinit((strLength + n));
 
-    strncpy(newString,string,strLen);
+    strncpy(newString,string,strLength);
 
     hstrfree(string);
     string = newString;
@@ -39,9 +39,18 @@ char* hstrextend(char* string,size_t n)
     return string;
 }
 
+size_t hstrtruelen(char* string)
+{
+    if(string == NULL){
+        return NULL;
+    }
+
+    return (sizeof(string)/sizeof(char));
+}
+
 char* hstrclear(char* string)
 {
-    memset(string,'\0',strlen(string));
+    memset(string,'\0',hstrtruelen(string));
 
     return string;
 }

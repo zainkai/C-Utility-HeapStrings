@@ -14,7 +14,7 @@ void hstrfree(char* string)
     free(string);
 }
 
-char* hstrinit(int n)
+char* hstrinit(size_t n)
 {
     if(n == 0){
         return NULL;
@@ -26,7 +26,7 @@ char* hstrinit(int n)
     return string;
 }
 
-char* hstrextend(char* string,int n)
+char* hstrextend(char* string,size_t n)
 {
     int strLen = strlen(string);
     char* newString = hstrinit((strLen + n));

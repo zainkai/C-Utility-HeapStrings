@@ -12,8 +12,8 @@ typedef struct hstring{
 
 char* hstrnew(const char* init);
 void hstrfree(char* string);
-char* hstrinit(int n);
-char* hstrextend(char* string,int n);
+char* hstrinit(size_t n);
+char* hstrextend(char* string,size_t n);
 char* hstrclear(char* string);
 char** hstrsplit(char* string, char* delims);
 

@@ -13,7 +13,7 @@ typedef struct hstring{
 char* createstr(const char* init);
 void freestr(char* string);
 char* initnstr(int n);
+char* extendstr(char* string,int n);
 char** splitstr(char* string, char* delims);
-
 
 #endif

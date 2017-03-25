@@ -1,15 +1,15 @@
 #include "HString_Util.h"
 
-// NAME:
+// NAME: hstrnew
 // DESC:
-char* hstrnew(const char* init)
+hstring hstrnew(const hstring init)
 {
     return strdup(init);
 }
 
-// NAME:
+// NAME: hstrfree
 // DESC:
-void hstrfree(char* string)
+void hstrfree(hstring string)
 {
     if(string == NULL){
         return;
@@ -18,26 +18,26 @@ void hstrfree(char* string)
     free(string);
 }
 
-// NAME:
+// NAME: hstrinit
 // DESC:
-char* hstrinit(size_t n)
+hstring hstrinit(size_t n)
 {
     if(n == 0){
         return NULL;
     }
 
-    char* string = malloc((n + 1) * sizeof(char));
+    hstring string = malloc((n + 1) * sizeof(char));
     memset(string,'\0',n + 1);
 
     return string;
 }
 
-// NAME:
+// NAME: hstrextend
 // DESC:
-char* hstrextend(char* string,size_t n)
+hstring hstrextend(hstring string,size_t n)
 {
     size_t strLength = strlen(string);
-    char* newString = hstrinit((strLength + n));
+    hstring newString = hstrinit((strLength + n));
 
     strncpy(newString,string,strLength);
 
@@ -47,9 +47,9 @@ char* hstrextend(char* string,size_t n)
     return string;
 }
 
-// NAME:
+// NAME: hstrresize
 // DESC:
-char* hstrresize(char* string, size_t newlength)
+hstring hstrresize(hstring string, size_t newlength)
 {
     int offset = newlength - hstrtruelen(string);
 
@@ -57,7 +57,7 @@ char* hstrresize(char* string, size_t newlength)
         return string;
     }
     else if(offset < 0){
-        char* newString = hstrinit(newlength);
+        hstring newString = hstrinit(newlength);
 
         strncpy(newString,string,newlength);
         newString[newlength + 1] = '\0';
@@ -72,9 +72,9 @@ char* hstrresize(char* string, size_t newlength)
     return string;
 }
 
-// NAME:
+// NAME: hstrtruelen
 // DESC:
-size_t hstrtruelen(char* string)
+size_t hstrtruelen(hstring string)
 {
     if(string == NULL){
         return 0;
@@ -83,27 +83,27 @@ size_t hstrtruelen(char* string)
     return (sizeof(string)/sizeof(char));
 }
 
-// NAME:
+// NAME: hstrclear
 // DESC:
-char* hstrclear(char* string)
+hstring hstrclear(hstring string)
 {
     memset(string,'\0',hstrtruelen(string));
 
     return string;
 }
 
-// NAME:
+// NAME: hstrsplit
 // DESC:
-char** hstrsplit(char* string, char* delims)
+hstring* hstrsplit(hstring string, hstring delims)
 {
     int n_tokens = 1;
-    char* stringcpy = strdup(string);//copy for strtok to destroy.
-    char** strArray = malloc(n_tokens * sizeof(char*));
+    hstring stringcpy = strdup(string);//copy for strtok to destroy.
+    hstring* strArray = malloc(n_tokens * sizeof(hstring));
 
-    char* token = strtok(stringcpy,delims);
+    hstring token = strtok(stringcpy,delims);
     while(token != NULL){
         strArray[n_tokens - 1] = hstrnew(token);
-        strArray = realloc(strArray, ++n_tokens * sizeof(char*));
+        strArray = realloc(strArray, ++n_tokens * sizeof(hstring));
 
         token = strtok(NULL,delims);
     }

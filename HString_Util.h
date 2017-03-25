@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct hstring{
+    int len;
+    char* str;
+} hstring;
+
 char* createstr(const char* init);
 void freestr(char* string);
 char* initnstr(int n);

@@ -10,10 +10,11 @@ typedef struct hstring{
     char* str;
 } hstring;
 
-char* createstr(const char* init);
-void freestr(char* string);
-char* initnstr(int n);
-char* extendstr(char* string,int n);
-char** splitstr(char* string, char* delims);
+char* hstrnew(const char* init);
+void hstrfree(char* string);
+char* hstrinit(int n);
+char* hstrextend(char* string,int n);
+char* hstrclear(char* string);
+char** hstrsplit(char* string, char* delims);
 
 #endif

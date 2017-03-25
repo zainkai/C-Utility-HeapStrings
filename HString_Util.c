@@ -1,11 +1,11 @@
 #include "HString_Util.h"
 
-char* createstr(const char* init)
+char* hstrnew(const char* init)
 {
     return strdup(init);
 }
 
-void freestr(char* string)
+void hstrfree(char* string)
 {
     if(string == NULL){
         return;
@@ -14,7 +14,7 @@ void freestr(char* string)
     free(string);
 }
 
-char* initnstr(int n)
+char* hstrinit(int n)
 {
     if(n == 0){
         return NULL;
@@ -26,20 +26,27 @@ char* initnstr(int n)
     return string;
 }
 
-char* extendstr(char* string,int n)
+char* hstrextend(char* string,int n)
 {
     int strLen = strlen(string);
-    char* newString = initnstr((strLen + n));
+    char* newString = hstrinit((strLen + n));
 
     strncpy(newString,string,strLen);
 
-    freestr(string);
+    hstrfree(string);
     string = newString;
 
     return string;
 }
 
-char** splitstr(char* string, char* delims)
+char* hstrclear(char* string)
+{
+    memset(string,'\0',strlen(string));
+
+    return string;
+}
+
+char** hstrsplit(char* string, char* delims)
 {
     int n_tokens = 1;
     char* stringcpy = strdup(string);//copy for strtok to destroy.
@@ -47,12 +54,12 @@ char** splitstr(char* string, char* delims)
 
     char* token = strtok(stringcpy,delims);
     while(token != NULL){
-        strArray[n_tokens - 1] = createstr(token);
+        strArray[n_tokens - 1] = hstrnew(token);
         strArray = realloc(strArray, ++n_tokens * sizeof(char*));
 
         token = strtok(NULL,delims);
     }
 
-    freestr(stringcpy);
+    hstrfree(stringcpy);
     return strArray;
 }

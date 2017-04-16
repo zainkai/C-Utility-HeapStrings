@@ -28,7 +28,7 @@
 typedef struct{
     unsigned int size;
     unsigned int capacity;
-    char* str;
+    char str[];
 } hstr_s; //optional type definition.
 typedef hstr_s* hstr;
 
@@ -37,10 +37,12 @@ typedef hstr_s* hstr;
 hstr hstrNew(const char* init)
 {
     hstr s = malloc(sizeof(hstr_s));
-    s->size = strlen(init);
-    s->capacity = s->size;
 
-    s->str = strdup(init);
+    s->size = strlen(init);
+    s->capacity = strlen(init);
+
+    memcpy(s->str, init, (s->capacity +1) * sizeof(char) );
+    s->str[s->capacity +1] = '\0';
 
     return s;
 }
@@ -61,8 +63,7 @@ int hstrFree(hstr s)
     if(s == NULL || s->str == NULL){
         return EXIT_SUCCESS;
     }
-    free(s->str);
-    s->str = NULL;
+
     free(s);
     s = NULL;
 
@@ -73,73 +74,70 @@ int hstrFree(hstr s)
 // DESC:
 hstr hstrInit(int n)
 {
-    if(n <= 0){
-        return NULL;
-    }
+    hstr s = malloc(sizeof(hstr_s));
 
-    hstr s = malloc(sizeof(hstr));
     s->size = 0;
     s->capacity = n;
 
-    s->str = malloc(n+1 * sizeof(char));
-    memset(s,'\0',n);
+    memset(s->str,'\0', (s->capacity +1) * sizeof(char) );
+    s->str[s->capacity +1] = '\0';
 
     return s;
 }
 
-// NAME: hstrExtend
-// DESC:
-int hstrExtend(hstr s, int n)
-{
-    if(n < 1 || s == NULL || n < s->capacity || s->str == NULL){
-        return EXIT_FAILURE;
-    }
-    int NewLength = s->size + n;
-    char* sdup = strdup(s->str);
+// // NAME: hstrExtend
+// // DESC:
+// int hstrExtend(hstr s, int n)
+// {
+//     if(n < 1 || s == NULL || n < s->capacity || s->str == NULL){
+//         return EXIT_FAILURE;
+//     }
+//     int NewLength = s->size + n;
+//     char* sdup = strdup(s->str);
 
-    SAFE_FREE(s->str);
-    s->str = malloc(NewLength * sizeof(char));
+//     SAFE_FREE(s->str);
+//     s->str = malloc(NewLength * sizeof(char));
 
-    strncpy(s->str,sdup,NewLength);
-    SAFE_FREE(sdup);
+//     strncpy(s->str,sdup,NewLength);
+//     SAFE_FREE(sdup);
 
-    return EXIT_SUCCESS;
-}
+//     return EXIT_SUCCESS;
+// }
 
-// NAME: hstrResize
-// DESC:
-int hstrResize(hstr s, int n)
-{
-    if(n <= 0 || s == NULL || s->str == NULL){
-        return EXIT_FAILURE;
-    }
-    char* sdup = strdup(s->str);
+// // NAME: hstrResize
+// // DESC:
+// int hstrResize(hstr s, int n)
+// {
+//     if(n <= 0 || s == NULL || s->str == NULL){
+//         return EXIT_FAILURE;
+//     }
+//     char* sdup = strdup(s->str);
 
-    s->capacity = n;
-    if(s->size > n){
-        s->size = n;
-    }
+//     s->capacity = n;
+//     if(s->size > n){
+//         s->size = n;
+//     }
 
-    SAFE_FREE(s->str);
-    s->str = malloc(n * sizeof(char));
-    strncpy(s->str,sdup,n);
-    SAFE_FREE(sdup);
+//     SAFE_FREE(s->str);
+//     s->str = malloc(n * sizeof(char));
+//     strncpy(s->str,sdup,n);
+//     SAFE_FREE(sdup);
 
-    return EXIT_SUCCESS;
-}
+//     return EXIT_SUCCESS;
+// }
 
-// NAME: hstrClear
-// DESC:
-int hstrClear(hstr s)
-{
-    if(s == NULL){
-        return EXIT_FAILURE;
-    }
+// // NAME: hstrClear
+// // DESC:
+// int hstrClear(hstr s)
+// {
+//     if(s == NULL){
+//         return EXIT_FAILURE;
+//     }
 
-    memset(s->str,'\0',s->capacity);
+//     memset(s->str,'\0',s->capacity);
 
-    return EXIT_SUCCESS;
-}
+//     return EXIT_SUCCESS;
+// }
 
 // NAME: hstrSplit
 // DESC:
@@ -163,4 +161,16 @@ char** strSplit(char* string, char* delims)
 
     SAFE_FREE(stringcpy);
     return strArray;
+}
+
+int main(){
+
+    hstr str = hstrNew("HELLO WORLD");
+    printf("%s\n",hstrGet(str));
+
+    hstr init = hstrInit(10);
+
+    hstrFree(str);
+    hstrFree(init);
+    return 0;
 }

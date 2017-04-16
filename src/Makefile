@@ -1,7 +1,7 @@
 UTILNAME := HString_Util
-FLAGS := -Wall -c
+FLAGS := -Wall
 
 all:
 	gcc $(UTILNAME).c $(FLAGS)
 clean:
-	rm $(UTILNAME).o
+	rm $(UTILNAME)
